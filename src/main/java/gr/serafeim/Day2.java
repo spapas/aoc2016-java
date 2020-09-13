@@ -96,4 +96,85 @@ public class Day2 {
         }
 
     }
+
+    
+    public static Coords move2(final Coords current, final UDLR direction) {
+        int dx = 0;
+        int dy = 0;
+
+        switch (direction) {
+            case U: 
+                if (current.y == -2) dy=0;
+                else if (current.y == -1 && (current.x==-1 || current.x==1)) dy=0;
+                else if (current.y == 0 && (current.x==-2 || current.x==2)) dy=0;
+                else dy--;
+                break;
+            case D: 
+                if (current.y == 2) dy=0;
+                else if (current.y == 1 && (current.x==-1 || current.x==1)) dy=0;
+                else if (current.y == 0 && (current.x==-2 || current.x==2)) dy=0;
+                else dy++;
+                break;
+            case L: 
+                if (current.x == -2) dx=0;
+                else if (current.x == -1 && (current.y==-1 || current.y==1)) dx=0;
+                else if (current.x == 0 && (current.y==-2 || current.y==2)) dx=0;
+                else dx--;
+                break;
+            case R: 
+                if (current.x == 2) dx=0;
+                else if (current.x == 1 && (current.y==-1 || current.y==1)) dx=0;
+                else if (current.x == 0 && (current.y==-2 || current.y==2)) dx=0;
+                else dx++;
+                break;
+        }
+
+        return new Coords(current.x+dx, current.y+dy);
+    }
+    
+    static char getNumberFromCoords2(Coords c) {
+        if (c.y==0) {
+            if (c.x==-2) return '5';
+            if (c.x==-1) return '6';
+            if (c.x==0) return '7';
+            if (c.x==1) return '8';
+            if (c.x==2) return '9';
+        }
+        if (c.y==1) {
+            if (c.x==-1) return 'A';
+            if (c.x==0) return '5';
+            if (c.x==1) return '6';
+        }
+        if (c.y==2) {
+            if (c.x==0) return 'D';
+        }
+        if (c.y==-1) {
+            if (c.x==-1) return '2';
+            if (c.x==0) return '3';
+            if (c.x==1) return '4';
+        }
+        if (c.y==-2) {
+            if (c.x==0) return '1';
+        }
+        return 'Z';
+    }
+    
+    static void part2() {
+        try {
+            final ArrayList<ArrayList<UDLR>> inp = readInput();
+            //System.out.println(inp);
+            Coords current = new Coords(0,0);
+            for(ArrayList<UDLR> inputLine: inp) {
+                for(UDLR direction: inputLine) {
+                    current = move2(current, direction);
+
+                }
+                System.out.println(getNumberFromCoords2(current));
+            }
+            
+        } catch(final Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 }
