@@ -19,5 +19,17 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    
+      <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <release>14</release>
+            <compilerArgs>--enable-preview</compilerArgs>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>
