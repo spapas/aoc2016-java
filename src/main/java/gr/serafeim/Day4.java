@@ -4,8 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,9 +14,19 @@ import java.util.stream.Stream;
 public class Day4 {
     record Room(String name, int id, String checksum) {
         public boolean isReal() {
-            Map<Character, Long> freqs = name.chars().mapToObj(i -> (char) i).filter(c -> c != '-').collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-            System.out.println(freqs);
-            return true;
+            Map<Character, Long> freqs = name.chars().mapToObj(
+                    i -> (char) i
+            ).filter(c -> c != '-').collect(
+                    Collectors.groupingBy(Function.identity(), Collectors.counting())
+            );
+            List<Map.Entry<Character, Long>> entries = freqs.entrySet().stream().sorted(Comparator.comparing(
+                    (Map.Entry<Character, Long> m) -> m.getValue()).reversed().thenComparing(
+                    (Map.Entry<Character, Long> m) -> m.getKey()
+            )).limit(5).collect(Collectors.toList());
+
+            String testcheck= entries.stream().map(m -> m.getKey().toString()).collect(Collectors.joining(""));
+            System.out.println(testcheck);
+            return testcheck.equals(this.checksum);
         }
     }
 
@@ -53,9 +62,9 @@ public class Day4 {
     public static void part1() {
         try {
             ArrayList<Room> rooms = readInput();
-            //int res = Util.foldLeft(rooms.stream().filter(Room::isReal), 0, (acc, el) -> el.id + acc );
-            //System.out.println(res);
-            System.out.println(parseRoom("shoewudys-tou-ixyffydw-478[uszty]").isReal());
+            int res = Util.foldLeft(rooms.stream().filter(Room::isReal), 0, (acc, el) -> el.id + acc );
+            System.out.println(res);
+            //System.out.println(parseRoom("shoewudys-tou-ixyffydw-478[uszty]").isReal());
 
         } catch(Exception e) {
             e.printStackTrace();
