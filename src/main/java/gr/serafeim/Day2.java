@@ -42,7 +42,7 @@ public class Day2 {
         return res;
     }
 
-    record Coords(final int x, final int y) {}
+    record Coords(int x,  int y) {}
 
     public static Coords move(final Coords current, final UDLR direction) {
         int dx = 0;
