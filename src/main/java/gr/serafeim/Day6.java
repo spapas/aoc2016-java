@@ -49,4 +49,34 @@ public class Day6 {
 
         }
     }
+
+    public static void part2() {
+        int possible = 0;
+        try {
+            HashMap<Integer, Integer> [] positions = new HashMap[8];
+            for(int i=0;i<8;i++) {
+                positions[i] = new HashMap<>();
+            }
+            ArrayList<String> inp = readInput();
+            for(String s: inp) {
+                int[] ints = s.chars().toArray();
+                for(int i=0;i<ints.length;i++) {
+                    Integer cnt = positions[i].get(ints[i]);
+                    if(cnt==null) {
+                        cnt = 1;
+                    } else {
+                        cnt++;
+                    }
+                    positions[i].put(ints[i], cnt);
+                }
+            }
+            for(int i=0;i<8;i++) {
+                HashMap<Integer, Integer> position = positions[i];
+                Optional<Map.Entry<Integer, Integer>> max = position.entrySet().stream().min(Comparator.comparingInt(x -> x.getValue()));
+                System.out.print((char)max.get().getKey().intValue());
+            }
+        } catch(Exception e) {
+
+        }
+    }
 }
