@@ -20,6 +20,29 @@ public class Day7 {
         return false;
     }
 
+    static ArrayList<String> getABABAB(String s) {
+        ArrayList<String> res = new ArrayList<String>();
+        int i;
+        for(i=0;i<s.length()-2;i++) {
+            char c1 = s.charAt(i);
+            char c2 = s.charAt(i+1);
+            char c3 = s.charAt(i+2);
+
+            if(c1 == c3 && c1 != c2) {
+                StringBuilder sb = new StringBuilder();
+                sb.append(c1);
+                sb.append(c2);
+                sb.append(c3);
+                res.add(sb.toString());
+            };
+        }
+        return res;
+    }
+
+    static boolean getAbabOk(String s1, String s2) {
+        return s1.charAt(0) == s2.charAt(1) && s1.charAt(1) == s2.charAt(0);
+    }
+
     record Address(ArrayList<String> inBrackets, ArrayList<String> outsideBrackets) {
         public boolean supportsTLS() {
 
@@ -29,6 +52,28 @@ public class Day7 {
 
             for(String s: outsideBrackets) {
                 if(hasABBA(s)) return true;
+            }
+            return false;
+        }
+
+        public boolean supportsSSL() {
+            ArrayList<String> aba = new ArrayList<>();
+            ArrayList<String> aba2 = new ArrayList<>();
+
+            for(String s: inBrackets) {
+                aba.addAll(getABABAB(s));
+            }
+
+            for(String s: outsideBrackets) {
+                aba2.addAll(getABABAB(s));
+            }
+
+            for(String ab2: aba2) {
+                for(String ab: aba) {
+                    if(getAbabOk(ab, ab2)) {
+                        return true;
+                    }
+                }
             }
             return false;
         }
@@ -87,6 +132,25 @@ public class Day7 {
                 }
             }
             System.out.println(cnt);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void part2() {
+        try {
+            System.out.println(Address.getAddress("rvvyvofaygynnetjtry[kegzdkleyezldyeyn]erioueyndgksxetku[tsarhnyrbaubgmteiw]lbcsksdiqqdacutvc").supportsSSL());
+            // 339 too high
+            ArrayList<Address> addresses = readInput();
+            int cnt = 0;
+
+            for(Address a: addresses) {
+                if(a.supportsSSL()) {
+                    cnt++;
+                }
+            }
+            System.out.println(cnt);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
